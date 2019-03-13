@@ -1,6 +1,9 @@
 package gohubspot
 
-import "fmt"
+import (
+	"fmt"
+	"net/url"
+)
 
 type ContactsService service
 
@@ -13,6 +16,15 @@ type Contact struct {
 	ProfileToken string     `json:"profile-token"`
 	ProfileURL   string     `json:"profile-url"`
 	Properties   Properties `json:"properties"`
+}
+
+func (s *ContactsService) GetAll(queryParams url.Values) (*AllContactsResp, error) {
+	// url := "/contacts/v1/contact"
+	url := "/contacts/v1/lists/all/contacts/all"
+	//?hapikey=c3048777-098b-4136-b69d-3a9e23c83107&count=100&&vidOffset=0&showListMemberships=true&property=envoyemployeeentry&property=envoyentry&property=mobilephone&property=phone"
+	res := new(AllContactsResp)
+	err := s.client.RunGetWithQuery(url, queryParams, res)
+	return res, err
 }
 
 func (s *ContactsService) Create(properties Properties) (*IdentityProfile, error) {

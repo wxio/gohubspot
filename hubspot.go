@@ -89,6 +89,27 @@ func (c *HubspotClient) RunPost(url string, body, res interface{}) error {
 	}
 }
 
+func (c *HubspotClient) RunGetWithQuery(url string, queryParams url.Values, res interface{}) error {
+	if req, err := c.Get(url); err != nil {
+		return err
+	} else {
+		fmt.Printf("1. url:%v\n", req.URL.String())
+		urlStr := req.URL.String()
+		for k, vs := range queryParams {
+			for _, v := range vs {
+				urlStr += "&" + k + "=" + v
+			}
+		}
+		url, err := c.BaseURL.Parse(urlStr)
+		if err != nil {
+			return err
+		}
+		req.URL = url
+		fmt.Printf("2. url:%v\n", req.URL.String())
+		return c.Do(req, res)
+	}
+}
+
 func (c *HubspotClient) RunPut(url string, body, res interface{}) error {
 	if req, err := c.NewRequest(http.MethodPut, url, body); err != nil {
 		return err
