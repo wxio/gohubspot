@@ -49,7 +49,7 @@ func (cp *ContactProperties) GetString(key string) string {
 func (cp *ContactProperties) GetStrings(key string) []string {
 	v, ex := (*cp)[key]
 	if !ex {
-		return []string{""}
+		return []string{}
 	}
 	return strings.Split(fmt.Sprintf("%s", v.Value), ";")
 }
