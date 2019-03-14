@@ -93,7 +93,6 @@ func (c *HubspotClient) RunGetWithQuery(url string, queryParams url.Values, res 
 	if req, err := c.Get(url); err != nil {
 		return err
 	} else {
-		fmt.Printf("1. url:%v\n", req.URL.String())
 		urlStr := req.URL.String()
 		for k, vs := range queryParams {
 			for _, v := range vs {
@@ -105,7 +104,6 @@ func (c *HubspotClient) RunGetWithQuery(url string, queryParams url.Values, res 
 			return err
 		}
 		req.URL = url
-		fmt.Printf("2. url:%v\n", req.URL.String())
 		return c.Do(req, res)
 	}
 }
